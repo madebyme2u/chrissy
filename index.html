@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>💌</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: 'Montserrat', sans-serif;
+          background: red;
+          min-height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          overflow: hidden;
+          color: #2D1A4D;
+        }
+
+        .slide {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          text-align: center;
+          padding: 60px 45px;
+          background: #ffffff;
+          box-shadow: 0 15px 60px rgba(0, 0, 0, 0.18);
+          border-radius: 24px;
+          max-width: 85%;
+          z-index: 2;
+        }
+
+        h2 {
+          font-family: 'Lora', serif;
+          font-size: 3rem;
+          margin-bottom: 40px;
+          color: #5F3969;
+        }
+
+        .glow-text {
+          color: #fff;
+          text-shadow: 0 0 15px red, 0 0 350px darkred;
+          animation: glow 2.5s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.6; }
+        }
+
+        button {
+          padding: 18px 45px;
+          margin: 10px;
+          background: #FF2400;
+          color: white;
+          border: none;
+          font-size: 1.3rem;
+          font-weight: 600;
+          border-radius: 50px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          box-shadow: 0 6px 30px rgba(0,0,0,0.15);
+        }
+
+        button:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 12px 45px rgba(0,0,0,0.2);
+        }
+
+        .no-btn {
+          background: #ccc;
+          color: #333;
+        }
+
+        .balloon {
+          position: absolute;
+          width: 90px;
+          height: 100px;
+          background: #F5C6B0;
+          border-radius: 50% 50% 45% 45%;
+          animation: floatUp 14s linear infinite;
+          opacity: 0.85;
+          z-index: 0;
+        }
+
+        @keyframes floatUp {
+          from {
+            transform: translateY(110vh) scale(1);
+            opacity: 1;
+          }
+          to {
+            transform: translateY(-120vh) scale(1.2);
+            opacity: 0.4;
+          }
+        }
+
+        .sparkle {
+          position: absolute;
+          width: 16px;
+          height: 16px;
+          background: white;
+          border-radius: 50%;
+          box-shadow: 0 0 25px white;
+          animation: sparkle 3s ease-in-out infinite;
+          z-index: 1;
+        }
+
+        @keyframes sparkle {
+          0%,100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.8); opacity: 0.4; }
+        }
+
+        /* ===== iPhone / small screen adjustments ===== */
+        @media only screen and (max-width: 480px) {
+            .slide {
+                width: 90vw;        /* almost full screen width */
+                padding: 40px 25px; /* smaller padding for mobile */
+                max-height: 95vh;   /* prevent vertical overflow */
+                overflow-y: auto;   /* scroll if content is too tall */
+            }
+
+            h2 {
+                font-size: 2rem;    /* smaller heading for small screens */
+            }
+
+            button {
+                padding: 14px 35px; /* smaller buttons */
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<audio id="bg-music" loop>
+    <source src="love-song.mp3" type="audio/mpeg">
+</audio>
+
+<div class="slide">
+    <h2 class="glow-text">nanakeme teidou progress, will you be my valentine?</h2>
+
+    <button onclick="confetti()">YES</button>
+    <button class="no-btn" onmouseover="moveNo(this)">NO</button>
+
+    <br><br>
+
+    <a href="https://wa.me/2349163529476?text=Yes%2C%20I%E2%80%99ll%20be%20your%20valentine" target="_blank">
+        <button> click me ❤</button>
+    </a>
+</div>
+
+<script>
+    const music = document.getElementById("bg-music");
+    music.volume = 0.4;
+    let started = false;
+
+    // Start music on first click anywhere and fade in
+    document.addEventListener("click", () => {
+      if (!started) {
+        music.play().then(() => {
+          music.volume = 0; // start silent
+          let vol = 0;
+          const fade = setInterval(() => {
+            if (vol < 0.4) {
+              vol += 0.01;
+              music.volume = vol;
+            } else {
+              clearInterval(fade);
+            }
+          }, 50);
+        }).catch(err => console.log("Play blocked:", err));
+        started = true;
+      }
+    });
+
+    // Balloons
+    for (let i = 0; i < 40; i++) {
+      const balloon = document.createElement('div');
+      balloon.className = 'balloon';
+      balloon.style.left = Math.random() * 100 + 'vw';
+      balloon.style.animationDuration = 10 + Math.random() * 8 + 's';
+      document.body.appendChild(balloon);
+    }
+
+    // Sparkles
+    for (let i = 0; i < 40; i++) {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.left = Math.random() * 100 + 'vw';
+      sparkle.style.top = Math.random() * 100 + 'vh';
+      sparkle.style.animationDuration = 2 + Math.random() * 4 + 's';
+      document.body.appendChild(sparkle);
+    }
+
+    // NO button
+    function moveNo(btn) {
+      btn.style.position = 'absolute';
+      btn.style.top = Math.random() * 80 + 'vh';
+      btn.style.left = Math.random() * 80 + 'vw';
+    }
+
+    // YES button
+    function confetti() {
+      alert('YAYY!💗🎊');
+    }
+</script>
+
+</body>
+</html>

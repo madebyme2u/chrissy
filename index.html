@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
@@ -82,15 +83,33 @@
         }
 
         .balloon {
-          position: absolute;
-          width: 90px;
-          height: 100px;
-          background: #F5C6B0;
-          border-radius: 50% 50% 45% 45%;
-          animation: floatUp 14s linear infinite;
-          opacity: 0.85;
-          z-index: 0;
-        }
+  position: absolute;
+  width: 80px;
+  height: 110px;
+  border-radius: 50% 50% 48% 48%;
+  background: linear-gradient(145deg, #ff6b81, #c9184a);
+  box-shadow:
+    inset -8px -12px 20px rgba(0,0,0,0.25),
+    inset 6px 8px 15px rgba(255,255,255,0.6),
+    0 10px 25px rgba(0,0,0,0.25);
+  animation: floatUp 16s linear infinite;
+  z-index: 0;
+}
+
+/* realistic light reflection */
+.balloon::before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 20px;
+  height: 30px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 50%;
+  transform: rotate(-20deg);
+  filter: blur(2px);
+}
+
 
         @keyframes floatUp {
           from {
@@ -122,18 +141,18 @@
         /* ===== iPhone / small screen adjustments ===== */
         @media only screen and (max-width: 480px) {
             .slide {
-                width: 90vw;        /* almost full screen width */
-                padding: 40px 25px; /* smaller padding for mobile */
-                max-height: 95vh;   /* prevent vertical overflow */
-                overflow-y: auto;   /* scroll if content is too tall */
+                width: 90vw;
+                padding: 40px 25px;
+                max-height: 95vh;
+                overflow-y: auto;
             }
 
             h2 {
-                font-size: 2rem;    /* smaller heading for small screens */
+                font-size: 2rem;
             }
 
             button {
-                padding: 14px 35px; /* smaller buttons */
+                padding: 14px 35px;
                 font-size: 1.1rem;
             }
         }
@@ -146,16 +165,26 @@
     <source src="love-song.mp3" type="audio/mpeg">
 </audio>
 
-<div class="slide">
-    <h2 class="glow-text">nanakeme teidou progress, will you be my valentine?</h2>
+<!-- INTRO SLIDE -->
+<div class="slide" id="intro-slide">
+    <h2 class="glow-text">it's quite interesting how that people come into your life and then suddenly become a big part of it. could that even be destiny?</h2>
+    <button onclick="showSecondSlide()">💌</button>
+</div>
 
-    <button onclick="confetti()">YES</button>
-    <button class="no-btn" onmouseover="moveNo(this)">NO</button>
+<!-- SECOND SLIDE -->
+<div class="slide" id="second-slide" style="display: none;">
+    <h2 class="glow-text">chrissy,you make my world brighter every day, my literal peace & safe space. can't go a day without thinking how much you mean to me.</h2>
+    <button onclick="showFinalSlide()">💌️</button>
+</div>
+
+<!-- FINAL VALENTINE SLIDE -->
+<div class="slide" id="final-slide" style="display: none;">
+    <h2 class="glow-text">i just want you to know that i love you so much and i'm committed in working this out with you 💕 </h2>
 
     <br><br>
 
-    <a href="https://wa.me/2349163529476?text=Yes%2C%20I%E2%80%99ll%20be%20your%20valentine" target="_blank">
-        <button> click me ❤</button>
+    <a href="https://wa.me/2349032746451?text=Omg%2C%20%" target="_blank">
+        <button>💌️</button>
     </a>
 </div>
 
@@ -168,7 +197,7 @@
     document.addEventListener("click", () => {
       if (!started) {
         music.play().then(() => {
-          music.volume = 0; // start silent
+          music.volume = 0;
           let vol = 0;
           const fade = setInterval(() => {
             if (vol < 0.4) {
@@ -183,14 +212,6 @@
       }
     });
 
-    // Balloons
-    for (let i = 0; i < 40; i++) {
-      const balloon = document.createElement('div');
-      balloon.className = 'balloon';
-      balloon.style.left = Math.random() * 100 + 'vw';
-      balloon.style.animationDuration = 10 + Math.random() * 8 + 's';
-      document.body.appendChild(balloon);
-    }
 
     // Sparkles
     for (let i = 0; i < 40; i++) {
@@ -211,8 +232,24 @@
 
     // YES button
     function confetti() {
-      alert('YAYY!💗🎊');
+      alert('YAYY!💗🎊 I LOVE YOU SO MUCH BABY💐');
     }
+
+    // Show final slide
+    function showFinalSlide() {
+        document.getElementById("intro-slide").style.display = "none";
+        document.getElementById("final-slide").style.display = "flex";
+    }
+
+    function showSecondSlide() {
+    document.getElementById("intro-slide").style.display = "none";
+    document.getElementById("second-slide").style.display = "flex";
+}
+
+function showFinalSlide() {
+    document.getElementById("second-slide").style.display = "none";
+    document.getElementById("final-slide").style.display = "flex";
+}
 </script>
 
 </body>
